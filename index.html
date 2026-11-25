@@ -1,0 +1,870 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vùng đất Hùng Châu</title>
+
+<style>
+
+/* CÀI ĐẶT CHUNG */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #F8F6F0;
+    color: #222222;
+    overflow-x: hidden;
+}
+
+/* LOGO */
+
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 5.6%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1001;
+    animation: logoIn 1s ease;
+}
+
+.logo-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #172B32;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    transition: 0.5s;
+}
+
+.logo-icon:hover {
+    transform: rotate(360deg);
+}
+
+.logo h2 {
+    font-family: Cambria, "Times New Roman", serif;
+    font-size: 25px;
+    color: #172B32;
+}
+
+.logo p {
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 4px;
+    color: #777777;
+}
+
+/* MENU ẨN BÊN PHẢI */
+
+.menu-drawer {
+    position: fixed;
+    top: 25px;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    max-width: calc(100vw - 10px);
+    transform: translateX(calc(100% - 55px));
+    transition: transform 0.5s ease;
+}
+
+.menu-drawer:hover {
+    transform: translateX(0);
+}
+
+.menu-panel {
+    order: 2;
+    background: #172B32;
+    padding: 22px 25px;
+    border: 1px solid #DADADA;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 5px 25px #00000020;
+}
+
+.menu-panel nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.menu-panel nav a {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: bold;
+    white-space: nowrap;
+    position: relative;
+    transition: 0.3s;
+}
+
+.menu-panel nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 2px;
+    background: #C65D40;
+    transition: width 0.3s ease;
+}
+
+.menu-panel nav a:hover,
+.menu-panel nav a.active {
+    color: #E5AA54;
+    transform: translateY(-4px);
+}
+
+.menu-panel nav a:hover::after,
+.menu-panel nav a.active::after {
+    width: 100%;
+}
+
+/* NÚT MỞ MENU */
+
+.menu-trigger {
+    order: 1;
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #172B32;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    border-radius: 12px 0 0 12px;
+    transition: 0.3s;
+}
+
+.menu-trigger:hover {
+    background: #C65D40;
+}
+
+/* CÁC TRANG */
+
+.page {
+    display: none;
+    min-height: 100vh;
+    animation: pageIn 0.6s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* TRANG CHỦ */
+
+.hero {
+    min-height: 100vh;
+    padding: 140px 5.6% 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.content {
+    width: 48%;
+    animation: contentIn 1s ease;
+}
+
+.number {
+    display: inline-block;
+    background: #C65D40;
+    color: white;
+    padding: 9px 16px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.location {
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    color: #666666;
+}
+
+.hero h1 {
+    font-family: Cambria, "Times New Roman", serif;
+    font-size: clamp(65px, 7vw, 100px);
+    margin: 25px 0 15px;
+    color: #172B32;
+}
+
+.subtitle {
+    font-family: Cambria, "Times New Roman", serif;
+    font-size: clamp(23px, 2.5vw, 30px);
+    font-style: italic;
+    font-weight: bold;
+    color: #C65D40;
+    line-height: 1.4;
+    margin-bottom: 25px;
+}
+
+.description {
+    color: #555555;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 32px;
+}
+
+.buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 20px 30px;
+    border-radius: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #C65D40;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #A84630;
+    transform: translateY(-5px);
+}
+
+.btn-secondary {
+    border: 1px solid #172B32;
+    color: #172B32;
+}
+
+.btn-secondary:hover {
+    background: #172B32;
+    color: white;
+    transform: translateY(-5px);
+}
+
+.hero-image {
+    width: 49%;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 14px;
+    animation: imageIn 1.2s ease;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s;
+}
+
+.hero-image:hover img {
+    transform: scale(1.06);
+}
+
+/* TIÊU ĐỀ CÁC MỤC */
+
+.section-content {
+    padding: 140px 5.6% 70px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-heading span {
+    color: #C65D40;
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.section-heading h1 {
+    font-family: Cambria, "Times New Roman", serif;
+    font-size: clamp(38px, 5vw, 60px);
+    margin: 18px 0;
+    color: #172B32;
+}
+
+.section-heading p {
+    color: #555555;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* THẺ NỘI DUNG */
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.info-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E2E2;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px #00000012;
+    transition: 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px #00000020;
+}
+
+.info-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    display: block;
+}
+
+.info-card h2 {
+    color: #C65D40;
+    font-family: Cambria, "Times New Roman", serif;
+    font-size: 23px;
+    padding: 20px 18px 10px;
+} 
+
+.info-card p {
+    color: #555555;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 0 18px 22px;
+}
+
+/* VIDEO */
+
+.video-section {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.video-section span {
+    color: #C65D40;
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.video-section h2 {
+    font-family: Cambria, "Times New Roman", serif;
+    font-size: clamp(26px, 3vw, 36px);
+    color: #172B32;
+    margin: 14px 0 28px;
+}
+
+.video-frame {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #172B32;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px #00000020;
+}
+
+.video-frame video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 520px;
+    object-fit: cover;
+}
+
+/* ANIMATION */
+
+@keyframes logoIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes contentIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes imageIn {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ĐIỆN THOẠI */
+
+@media (max-width: 900px) {
+
+    .hero {
+        flex-direction: column;
+        padding-top: 130px;
+    }
+
+    .content,
+    .hero-image {
+        width: 100%;
+    }
+
+    .hero-image {
+        height: 400px;
+    }
+
+    .menu-panel nav {
+        flex-wrap: wrap;
+        gap: 15px;
+        max-width: 280px;
+    }
+
+    .menu-panel {
+        padding: 15px;
+    }
+
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGO -->
+
+<div class="logo">
+    <div class="logo-icon">〰</div>
+    <div>
+        <h2>Hùng Châu</h2>
+        <p>Vùng đất Hùng Châu</p>
+    </div>
+</div>
+
+<!-- MENU -->
+
+<div class="menu-drawer">
+
+    <div class="menu-trigger">☰</div>
+
+    <div class="menu-panel">
+        <nav>
+            <a href="#" onclick="showPage('trangchu', this); return false;">Trang chủ</a>
+            <a href="#" onclick="showPage('diemden', this); return false;">Điểm đến</a>
+            <a href="#" onclick="showPage('vungdat', this); return false;">Vùng đất</a>
+            <a href="#" onclick="showPage('lehoi', this); return false;">Lễ hội</a>
+            <a href="#" onclick="showPage('langnghe', this); return false;">Làng nghề</a>
+            <a href="#" onclick="showPage('amthuc', this); return false;">Ẩm thực</a>
+            <a href="#" onclick="showPage('thuvien', this); return false;">Thư viện</a>
+        </nav>
+    </div>
+
+</div>
+
+<!-- 1. TRANG CHỦ -->
+
+<div id="trangchu" class="page active">
+
+    <section class="hero">
+
+        <div class="content">
+
+            <span class="number">01</span>
+            <span class="location">XÃ HẢI CHÂU, NGHỆ AN</span>
+
+            <h1>Hùng Châu</h1>
+
+            <div class="subtitle">
+                Khám phá vẻ đẹp quê hương
+            </div>
+
+            <p class="description">
+                Cùng tìm hiểu những nét đẹp về thiên nhiên,
+                văn hóa, con người và cuộc sống của vùng đất Hùng Châu.
+            </p>
+
+            <div class="buttons">
+                <a href="#" class="btn btn-primary"
+                   onclick="showPage('diemden'); return false;">
+                    Khám phá
+                </a>
+
+                <a href="#" class="btn btn-secondary"
+                   onclick="showPage('vungdat'); return false;">
+                    Tìm hiểu
+                </a>
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+            <img src="imgier\hoidongNTM_20191210104255.jpg"
+                 alt="Hùng Châu">
+        </div>
+
+    </section>
+
+</div>
+
+<!-- 2. ĐIỂM ĐẾN -->
+
+<div id="diemden" class="page">
+
+    <div class="section-content">
+
+        <div class="section-heading">
+            <span>KHÁM PHÁ</span>
+            <h1>Điểm Đến</h1>
+            <p>Những địa điểm và cảnh đẹp đáng khám phá tại quê hương Hùng Châu.</p>
+        </div>
+
+        <div class="card-container">
+
+            <div class="info-card">
+                <img src="imgier\Screenshot 2026-11-25 175622.png" >
+                <h2>địa điểm lịch sử</h2>
+                <p> Khám phá Nhà tưởng niệm đồng chí Phùng Chí Kiên và Đình Long Ân </p>
+            </div>
+
+            <div class="info-card">
+                <img src="imgier\DJI_0141-Rs.jpg">
+                <h2>Khu Vui Chơi Giải Trí</h2>
+                <p>Tìm hiểu hoạt dồng vui chơi và giải trí của người dân địa phương.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="imgier\images.jpg" alt="Thiên nhiên">
+                <h2>Cảnh đẹp ngôi chùa và thiên nhiên</h2>
+                <p>Ghi lại những khung cảnh thiên nhiên gần gũi và bình yên.</p>
+            </div>
+
+        </div>
+
+        <div class="video-section">
+            <span>VIDEO</span>
+            <h2>Ngắm Hùng Châu qua video</h2>
+            <div class="video-frame">
+                <video controls preload="metadata" poster="images/bien.jpg">
+                    <source src="videos/hung-chau.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 3. VÙNG ĐẤT -->
+
+<div id="vungdat" class="page">
+
+    <div class="section-content">
+
+        <div class="section-heading">
+            <span>TÌM HIỂU</span>
+            <h1>Vùng đất Hùng Châu</h1>
+            <p>Khám phá lịch sử, văn hóa và những nét đặc trưng của quê hương.</p>
+        </div>
+
+        <div class="card-container">
+
+            <div class="info-card">
+                <img src="images/dienhoang.jpg" alt="Lịch sử">
+                <h2>Lịch sử hình thành</h2>
+                <p>Tìm hiểu những dấu mốc và quá trình phát triển của vùng đất qua thời gian.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/dienkim.jpg" alt="Con người">
+                <h2>Con người quê hương</h2>
+                <p>Giới thiệu những con người cần cù, thân thiện và gắn bó với quê hương.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/dienhai.jpg" alt="Văn hóa">
+                <h2>Nét đẹp văn hóa</h2>
+                <p>Khám phá phong tục, tập quán và những nét sinh hoạt truyền thống.</p>
+            </div>
+
+        </div>
+
+        <div class="video-section">
+            <span>VIDEO</span>
+            <h2>Hành trình khám phá vùng đất</h2>
+            <div class="video-frame">
+                <video controls preload="metadata" poster="images/dienhoang.jpg">
+                    <source src="videos/hung-chau.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 4. LỄ HỘI -->
+
+<div id="lehoi" class="page">
+
+    <div class="section-content">
+
+        <div class="section-heading">
+            <span>VĂN HÓA</span>
+            <h1>Lễ hội truyền thống</h1>
+            <p>Tìm hiểu những hoạt động văn hóa và sinh hoạt cộng đồng tại địa phương.</p>
+        </div>
+
+        <div class="card-container">
+
+            <div class="info-card">
+                <img src="images/lehoi1.jpg" alt="Lễ hội">
+                <h2>Lễ hội truyền thống</h2>
+                <p>Những hoạt động văn hóa góp phần lưu giữ bản sắc quê hương.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/lehoi2.jpg" alt="Sinh hoạt cộng đồng">
+                <h2>Sinh hoạt cộng đồng</h2>
+                <p>Nơi mọi người cùng gặp gỡ, giao lưu và gìn giữ những giá trị truyền thống.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/danhca.jpg" alt="Văn hóa biển">
+                <h2>Văn hóa miền biển</h2>
+                <p>Những nét văn hóa gắn liền với cuộc sống và công việc của người dân vùng biển.</p>
+            </div>
+
+        </div>
+
+        <div class="video-section">
+            <span>VIDEO</span>
+            <h2>Không khí lễ hội quê hương</h2>
+            <div class="video-frame">
+                <video controls preload="metadata" poster="images/lehoi1.jpg">
+                    <source src="videos/hung-chau.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 5. LÀNG NGHỀ -->
+
+<div id="langnghe" class="page">
+
+    <div class="section-content">
+
+        <div class="section-heading">
+            <span>TRUYỀN THỐNG</span>
+            <h1>Làng nghề</h1>
+            <p>Tìm hiểu những nghề truyền thống và hoạt động lao động của người dân.</p>
+        </div>
+
+        <div class="card-container">
+
+            <div class="info-card">
+                <img src="images/luoica.jpg" alt="Đan lưới">
+                <h2>Nghề đan lưới</h2>
+                <p>Công việc đòi hỏi sự khéo léo và kinh nghiệm của người dân miền biển.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/catrich.jpg" alt="Chế biến cá">
+                <h2>Chế biến hải sản</h2>
+                <p>Giới thiệu các hoạt động chế biến và bảo quản hải sản truyền thống.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/muctuoi.jpg" alt="Đánh bắt">
+                <h2>Nghề đánh bắt</h2>
+                <p>Công việc gắn bó lâu đời với cuộc sống của nhiều gia đình vùng biển.</p>
+            </div>
+
+        </div>
+
+        <div class="video-section">
+            <span>VIDEO</span>
+            <h2>Nhịp sống làng nghề</h2>
+            <div class="video-frame">
+                <video controls preload="metadata" poster="images/luoica.jpg">
+                    <source src="videos/hung-chau.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 6. ẨM THỰC -->
+
+<div id="amthuc" class="page">
+
+    <div class="section-content">
+
+        <div class="section-heading">
+            <span>HƯƠNG VỊ QUÊ HƯƠNG</span>
+            <h1>Ẩm thực</h1>
+            <p>Khám phá những món ăn và hương vị đặc trưng của vùng đất ven biển.</p>
+        </div>
+
+        <div class="card-container">
+
+            <div class="info-card">
+                <img src="images/haisan.jpg" alt="Hải sản">
+                <h2>Hải sản tươi sống</h2>
+                <p>Những loại hải sản phong phú mang hương vị đặc trưng của vùng biển.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/muctuoi.jpg" alt="Mực">
+                <h2>Món ngon từ mực</h2>
+                <p>Mực có thể được chế biến thành nhiều món ăn hấp dẫn và đậm đà.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/catrich.jpg" alt="Cá biển">
+                <h2>Các món cá biển</h2>
+                <p>Những món ăn dân dã được chế biến từ nguồn cá biển tươi ngon.</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 7. THƯ VIỆN -->
+
+<div id="thuvien" class="page">
+
+    <div class="section-content">
+
+        <div class="section-heading">
+            <span>HÌNH ẢNH</span>
+            <h1>Thư viện</h1>
+            <p>Lưu giữ những khoảnh khắc đẹp về thiên nhiên, con người và quê hương.</p>
+        </div>
+
+        <div class="card-container">
+
+            <div class="info-card">
+                <img src="images/anh1.jpg" alt="Cảnh đẹp quê hương">
+                <h2>Cảnh đẹp quê hương</h2>
+                <p>Những hình ảnh ghi lại vẻ đẹp bình dị của vùng đất Hùng Châu.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/anh2.jpg" alt="Cuộc sống người dân">
+                <h2>Cuộc sống người dân</h2>
+                <p>Những khoảnh khắc đời thường trong cuộc sống và lao động.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="images/anh3.jpg" alt="Thiên nhiên">
+                <h2>Thiên nhiên</h2>
+                <p>Những khung hình đẹp về cảnh vật và môi trường quê hương.</p>
+            </div>
+
+        </div>
+
+        <div class="video-section">
+            <span>VIDEO</span>
+            <h2>Thư viện video</h2>
+            <div class="video-frame">
+                <video controls preload="metadata" poster="images/anh1.jpg">
+                    <source src="videos/hung-chau.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- JAVASCRIPT CHUYỂN MỤC -->
+
+<script>
+
+function showPage(pageName, clickedLink) {
+
+    // Ẩn tất cả các trang
+    let pages = document.querySelectorAll(".page");
+
+    pages.forEach(function(page) {
+        page.classList.remove("active");
+    });
+
+    // Hiện trang được chọn
+    document.getElementById(pageName).classList.add("active");
+
+    // Bỏ màu đang chọn của menu cũ
+    let links = document.querySelectorAll(".menu-panel nav a");
+
+    links.forEach(function(link) {
+        link.classList.remove("active");
+    });
+
+    // Đánh dấu mục menu đang chọn
+    if (clickedLink) {
+        clickedLink.classList.add("active");
+    } else {
+        links.forEach(function(link) {
+            if (link.getAttribute("onclick").includes(pageName)) {
+                link.classList.add("active");
+            }
+        });
+    }
+
+    // Trở về đầu trang
+    window.scrollTo(0, 0);
+}
+
+</script>
+
+</body>
+</html>
